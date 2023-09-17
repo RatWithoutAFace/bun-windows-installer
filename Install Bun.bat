@@ -14,40 +14,47 @@ echo VSCode and Remote Development Pack (Optional)
 echo Bun
 echo ----------------------------------------------------
 PAUSE
+cls
 
 echo Installing WSL... 
-timeout /T 1
+timeout /t 1 > nul
 wsl --install -d Ubuntu -n 
 
-timeout /T 3
+PAUSE
 cls
 
 echo Installing Bun... 
-timeout /T 1
+timeout /t 1 > nul
 ubuntu run "curl -fsSL https://bun.sh/install | bash"
 
 PAUSE
 cls
 
-choice /C:YN /M:"Install VSCode and Remote Development Pack? [Y/N]"
-IF ERRORLEVEL ==1 goto vsc
-IF ERRORLEVEL ==2 goto next1
-goto next1
+:choice1
+set /P c=Install VSCode and Remote Development Pack [Y/N]? 
+if /I "%c%" EQU "Y" goto :vsc
+if /I "%c%" EQU "N" goto :next1
+goto :choice1
 
 :vsc
+echo Installing VSCode...
+timeout /t 1 > nul
 winget install -e --id Microsoft.VisualStudioCode
-code --install-extension ms-vscode-remote.vscode-remote-extensionpack
-goto next1
+timeout /t 3 > nul
+
+echo Installing Remote Development Pack...
+code --install-extension ms-vscode-remote.vscode-remote-extensionpack --force & PAUSE
+goto :next1
 
 :next1
-PAUSE
 cls
 echo You have installed Bun on WSL!
 
-choice /C:YN /M:"Open VSCode on WSL? [Y/N]"
-IF ERRORLEVEL ==1 goto open
-IF ERRORLEVEL ==2 goto next 2
-goto next2
+:choice2
+set /P c=Open VSCode in WSL [Y/N]? 
+if /I "%c%" EQU "Y" goto :open
+if /I "%c%" EQU "N" goto :next2
+goto :choice2
 
 :open
 ubuntu run "code ."
