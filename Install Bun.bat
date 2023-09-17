@@ -25,6 +25,7 @@ cls
 
 echo Installing Bun... 
 timeout /t 1 > nul
+ubuntu run "sudo apt install unzip"
 ubuntu run "curl -fsSL https://bun.sh/install | bash"
 
 PAUSE
@@ -43,6 +44,7 @@ winget install -e --id Microsoft.VisualStudioCode
 timeout /t 3 > nul
 
 echo Installing Remote Development Pack...
+timeout /t 1 > nul
 code --install-extension ms-vscode-remote.vscode-remote-extensionpack --force & PAUSE
 goto :next1
 
